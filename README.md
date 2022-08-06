@@ -82,12 +82,12 @@ xn yn
 
    ![](./figure/Divide_and_conquer.drawio.png)
 
-### loosening the constraints
+### Loosening the constraints
 
    1. According to the paper ["Ising formulations of many NP problems"](https://www.frontiersin.org/articles/10.3389/fphy.2014.00005/full), the ising formulation of the traveling salesman problem is $$A\sum_{v=1}^n (1-\sum_{j=1}^n s_{v, j})^2 + A\sum_{j=1}^n (1-\sum_{v=1}^n s_{v, j})^2 + A\sum_{uv \notin E} \sum_{j=1}^n s_{u, j}s_{v, j+1} + B\sum_{uv\in E} W_{uv} \sum_{j=1}^n s_{u, j}s_{v, j+1}.$$
    2. To maintain the constraints of the traveling salesman problem, the formula $$\frac{A}{B} >= max(W_{uv})$$ needs to be satisfied. *max(W<sub>uv</sub>)* in this problem is the maximum distance between two nodes, and let it be *d<sub>max</sub>*. We can simply set $$A = max(d_{max})$$ and $$B = 1$$ for simplicity.
    3. We can try to set A less than *max(d<sub>max</sub>)*. In this way, it is more likely to obtain a shorter route although it might be invalid. To address the validity, we adopt the following technique.
-   4. We first set $$A = d_{max}^{init}$$, where *init* is the initial value of the exponent and *init < 1*. We use the Ising model to find the route and check its validity. If it is valid, then it is the answer. Otherwise, we increases *A* by *d<sub>max</sub><sup>inc<sup>*. That is, $$A = Ad_{max}^{inc}$$
+   4. We first set $$A = d_{max}^{init},$$ where *init* is the initial value of the exponent and $init < 1$. We use the Ising model to find the route and check its validity. If it is valid, then it is the answer. Otherwise, we increases *A* by $d_{max}^{inc}$. That is, $$A = Ad_{max}^{inc}$$
    5. We repeat step 4 until we find a valid answer.
 
 ### Analysis of time complexity
@@ -96,7 +96,7 @@ xn yn
 #### Time complexity of Ising model
 
    1. The time complexity of a single Ising model is $O(n^2ts)$, where *n* is the number of nodes and *t* is the number of times that the temperature is lowered, and *s* is the number of times *A* is increased. 
-   2. $$O(s) = O(\frac{1-init}{inc}),$$ since we will find a valid answer when the exponent of *A* is 1.
+   2. $O(s) = O(\frac{1-init}{inc}),$ since we will find a valid answer when the exponent of *A* is 1.
    3. The upper bound of the number of nodes in an Ising model is *k*. Thus, the time complexity of an Ising model is $O(k^2ts)$.
    4. We sum up the time of all Ising models. We use the Ising model to sort the centroid at each level and the nodes in the clusters at the last level. Therefore, the number of times we use the Ising model is $$\sum_{i=0}^{log_{k} n - 1} k^i = \frac{\frac{n}{k} (1 - \frac{1}{k}^{log_{k} n})}{1 - \frac{1}{k}} = O(\frac{n}{k}).$$ We can ignore every term of $\frac{1}{k}$ since $k \geq 2$.
    5. Accordingly, the total time complexity of the operations of the Ising model is $O(k^{2}ts\frac{n}{k}) = O(nkts)$.
@@ -106,7 +106,7 @@ xn yn
    1. The time complexity of k-means and agglomerative clustering are both $O(n^2)$, where *n* is the number of nodes that are clustered. The time complexity of agglomerative clustering is $O(n^2)$ because we adopt single-linkage clustering.
    2. At level *i* ( $i = 0, 1, ..., log_{k}^{n} - 1$ from top to bottom), $k^i$ clustering operations are perform and the the number of nodes in each operations is $(\frac{n^2}{k^i})^2$. Thus, the total time complexity of clusterings are $$\sum_{i=0}^{log_{k} n - 1} (\frac{n^2}{k^{i}})^2 k^i = \frac{n^2 (1 - \frac{1}{k}^{log_{k} n})}{1 - \frac{1}{k}} = O(n^2)$$.
 
-#### Summary time complexity
+#### Summary of time complexity
 
    1. The total time complexity of this algorithm is $O(nkts + n^2)$. 
    2. The original algorithm is a single Ising model so the time complexity is $O(n^2t_{original})$.
