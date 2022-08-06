@@ -87,7 +87,7 @@ xn yn
    1. According to the paper ["Ising formulations of many NP problems"](https://www.frontiersin.org/articles/10.3389/fphy.2014.00005/full), the ising formulation of the traveling salesman problem is $$A\sum_{v=1}^n (1-\sum_{j=1}^n s_{v, j})^2 + A\sum_{j=1}^n (1-\sum_{v=1}^n s_{v, j})^2 + A\sum_{uv \notin E} \sum_{j=1}^n s_{u, j}s_{v, j+1} + B\sum_{uv\in E} W_{uv} \sum_{j=1}^n s_{u, j}s_{v, j+1}.$$
    2. To maintain the constraints of the traveling salesman problem, the formula $$\frac{A}{B} >= max(W_{uv})$$ needs to be satisfied. *max(W<sub>uv</sub>)* in this problem is the maximum distance between two nodes, and let it be *d<sub>max</sub>*. We can simply set $$A = max(d_{max})$$ and $$B = 1$$ for simplicity.
    3. We can try to set A less than *max(d<sub>max</sub>)*. In this way, it is more likely to obtain a shorter route although it might be invalid. To address the validity, we adopt the following technique.
-   4. We first set $$A = d_{max}^{init}$$, where *init* is the initial value of the exponent and *init < 1*. We use the Ising model to find the route and check its validity. If it is valid, then it is the answer. Otherwise, we increases *A* by *d<sub>max</sub><sup>inc<sup>*. That is, $$A = A * d_{max}^{inc}$$
+   4. We first set $$A = d_{max}^{init}$$, where *init* is the initial value of the exponent and *init < 1*. We use the Ising model to find the route and check its validity. If it is valid, then it is the answer. Otherwise, we increases *A* by *d<sub>max</sub><sup>inc<sup>*. That is, $$A = Ad_{max}^{inc}$$
    5. We repeat step 4 until we find a valid answer.
 
 ### Analysis of time complexity
